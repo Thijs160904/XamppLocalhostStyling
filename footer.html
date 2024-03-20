@@ -1,0 +1,69 @@
+<style>
+    img.gif {
+        max-height: 6rem;
+        max-width: 6rem;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+        gap: 4rem;
+    }
+
+</style>
+
+<div class="footer">
+    <br/>
+    <p id="footer-text"></p>
+    <img class="gif" id="gif-image" alt="moving image :)"/>
+</div>
+<script>
+    let currentyear = new Date().getFullYear();
+    let footerText = "&copy; " + currentyear + ", <a href='http://instagram.com/thijs.herder'>Thijs.Herder</a>.inc <span>in colab with <a href='https://www.instagram.com/smeikol'>Smeikol</a></span>";
+    document.getElementById("footer-text").innerHTML = footerText;
+
+    window.onload = function() {
+        let gifLinkCookie = getCookie("gifLink");
+        if (!gifLinkCookie || gifLinkCookie === "invalid") {
+            gifLinkCookie = "https://i.pinimg.com/originals/2d/55/0e/2d550e48e5fabf33543b51e4d8ccb335.gif";
+        }
+        document.getElementById("gif-image").src = gifLinkCookie;
+
+        document.getElementById("gif-image").onerror = function() {
+            document.getElementById("gif-image").src = "https://i.pinimg.com/originals/2d/55/0e/2d550e48e5fabf33543b51e4d8ccb335.gif";
+            document.cookie = "gifLink=invalid";
+        };
+
+        let toggleGifCookie = getCookie("toggleGif");
+        if (toggleGifCookie === "1") {
+            document.querySelector('.gif').style.display = 'none';
+        } else {
+            document.querySelector('.gif').style.display = 'block';
+        }
+    };
+
+    function toggleGif() {
+        let toggleGifCookie = getCookie("toggleGif");
+        if (toggleGifCookie === "1") {
+            document.cookie = "toggleGif=0";
+        } else {
+            document.cookie = "toggleGif=1";
+        }
+
+        location.reload();
+    }
+
+    function getCookie(name) {
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.startsWith(name + "=")) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return null;
+    }
+</script>
+
+</body>
+</html>

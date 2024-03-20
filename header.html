@@ -1,0 +1,512 @@
+<!--    ______         _____      _________       _______   -->
+<!--  .' ___  |       |_   _|    |_   ___  |     /  ___  |  -->
+<!-- / .'   \_|         | |        | |_  \_|     | (__ \_|  -->
+<!-- | |    ____        | |        |  _|         '.___`-.   -->
+<!-- \ `.___]  _|      _| |_      _| |_         |`\____) |  -->
+<!--  `._____.'       |_____|    |_____|        |_______.'  -->
+
+<!--slowpoke: https://i.stack.imgur.com/SBv4T.gif-->
+<!--creepy orange: https://images.squarespace-cdn.com/content/v1/581499b8e58c627afce6221c/1581466535600-K13XTW44G4XOOC0RFPN5/winky.gif?format=500w-->
+<!--dancing pinguin: https://media.tenor.com/wiMyvo8ZFN0AAAAj/pinguim-penguin.gif-->
+<head>
+    <title>Apache Root Folder</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style type="text/css">
+        body > .searchbar {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2rem;
+        }
+
+        .searchbar > * {
+            border: #525050 1px solid;
+
+        }
+
+        .searchbar > input {
+            height: 100%;
+            width: 18rem;
+            margin: 0;
+            padding: 0;
+            border-radius: 15px 0 0 15px;
+            border-right: none;
+            padding-left: 1rem !important;
+        }
+
+        .searchbar > button {
+            height: 105% !important;
+            width: 5rem;
+            margin: 0;
+            padding: 0;
+            border: #6d93ff;
+            border-radius: 0 15px 15px 0;
+            background: #4f7cff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .searchbar > button:hover {
+            background: #6d93ff;
+        }
+
+        body {
+            font-family: "Helvetica", "Helvetica Neue";
+            width: 70%;
+            margin: auto;
+        }
+
+        tr,
+        td,
+        th {
+            padding: 5px 10px;
+            text-align: left;
+        }
+
+        table {
+            font-size: 0.9em;
+            width: 100%;
+        }
+
+        a {
+            color: #333;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        th:nth-child(5) {
+            display: none;
+        }
+
+        td:nth-child(5) {
+            display: none;
+        }
+
+        span {
+            font-size: 10px;
+        }
+
+        .settings-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #4f7cff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .settings-button:hover {
+            background-color: #6d93ff;
+        }
+
+        .settings-screen {
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: none;
+            z-index: 9999;
+        }
+
+        button {
+            top: 20px;
+            right: 20px;
+            background-color: #4f7cff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4f7cff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            background-color: #6d93ff;
+        }
+
+        .settings-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-left: 20%;
+            margin-top: 4rem;
+            max-width: 60%;
+        }
+
+        .color-picker {
+            margin-bottom: 20px;
+
+        }
+
+        .btn-red {
+            background-color: red;
+        }
+
+        select, .input {
+            height: 2rem;
+            width: 10rem;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #222222;
+        }
+
+
+        @media screen and (min-width: 320px) and (max-width: 768px) {
+            body {
+                width: 90%;
+            }
+
+            td,
+            th {
+                font-size: 1.0em;
+            }
+
+            p {
+                font-size: 0.9em;
+            }
+
+
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: #eee;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+
+        }
+
+    </style>
+</head>
+<script src="https://kit.fontawesome.com/b76176320d.js" crossorigin="anonymous"></script>
+<body>
+<div id="settings-screen" class="settings-screen">
+    <div class="settings-content">
+        <h2>Colours! 🌈</h2>
+        <div class="color-picker">
+            <label for="text-color">Text Color:</label>
+            <input type="color" id="text-color">
+            <input type="checkbox" id="save-text-color" checked>
+        </div>
+        <div class="color-picker">
+            <label for="background-color">Background Color:</label>
+            <input type="color" id="background-color">
+            <input type="checkbox" id="save-bg-color" checked>
+        </div>
+        <div class="color-picker">
+            <label for="button-background-color">Button Color:</label>
+            <input type="color" id="button-background-color">
+            <input type="checkbox" id="save-button-bg-color" checked>
+        </div>
+        <button class="save-button" onclick="saveColors()"><i class="fa-solid fa-floppy-disk"></i> Save Theme</button>
+        <button class="restore-button" onclick="restoreDefaults()"><i class="fa-solid fa-arrows-rotate"></i> Restore to Default</button>
+        <hr>
+        <h2>Gif! 🖼️</h2>
+        <div class="color-picker">
+            <select id="savedGifsDropdown">
+            </select>
+        </div>
+
+        <div class="color-picker">
+            <button onclick="updateSelectedGif()"><i class="fa-solid fa-pen"></i> Update Gif</button>
+            <button class="btn-red" onclick="deleteSelectedGif()"><i class="fa-solid fa-trash"></i> Delete Selected GIF</button>
+        </div>
+
+        <div class="color-picker">
+            <input class="input" type="text" name="gifLink" placeholder="Gif Link"/>
+        </div>
+        <div class="color-picker">
+            <input class="input" type="text" name="gifName" placeholder="Gif Name"/>
+        </div>
+        <button onclick="saveGifLink()"><i class="fa-solid fa-floppy-disk"></i> Save GIF Link</button>
+        <button onclick="toggleGif()"><i class="fa-solid fa-toggle-on"></i> Toggle GIF</button>
+        <button class="close-button" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i> Close</button>
+    </div>
+</div>
+<button class="settings-button" onclick="toggleSettings()"><i class="fa-solid fa-gear"></i> Settings</button>
+<button class="settings-button" onclick="toggleSettings()"><i class="fa-solid fa-gear"></i> Settings</button>
+<h1>Apache Root Folder</h1>
+<p>These are all my top secret projects 🤫</p><br/>
+<div class="searchbar" id="search-bar">
+    <input type="text" id="search-input" placeholder="Search...">
+    <button onclick="searchFiles()"><i class="fa-solid fa-magnifying-glass"></i></button>
+</div>
+<!-- IF YOU WANT TO STYLE GENERATED CONTENT, USE DIV #generated -->
+
+<script>
+
+
+    let search = document.getElementById("search-input");
+    search.addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                searchFiles();
+            }
+        }
+    )
+    search.addEventListener('input', function (e) {
+        event.preventDefault();
+        searchFiles();
+    });
+</script>
+<div id="generated">
+
+    <script>
+        function searchFiles() {
+            let input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search-input");
+            filter = input.value.toUpperCase();
+            table = document.querySelector("table");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function toggleSettings() {
+            let settingsScreen = document.getElementById("settings-screen");
+            settingsScreen.style.display = "block";
+        }
+
+        function closeSettings() {
+            let settingsScreen = document.getElementById("settings-screen");
+            settingsScreen.style.display = "none";
+        }
+
+        function changeTextColor(color) {
+            document.body.style.color = color;
+            let links = document.querySelectorAll('a');
+            links.forEach(function (link) {
+                link.style.color = color;
+            });
+        }
+
+        function changeBackgroundColor(color) {
+            document.body.style.backgroundColor = color;
+            let settingsContent = document.querySelector('.settings-content');
+            settingsContent.style.backgroundColor = color;
+        }
+
+        function changeButtonBackgroundColor(color) {
+            let buttons = document.querySelectorAll('button');
+            buttons.forEach(function (button) {
+                button.style.backgroundColor = color;
+            });
+        }
+
+        function saveColors() {
+            let textColor = document.getElementById('text-color').value;
+            let bgColor = document.getElementById('background-color').value;
+            let buttonBgColor = document.getElementById('button-background-color').value;
+
+            let saveTextColor = document.getElementById('save-text-color').checked;
+            let saveBgColor = document.getElementById('save-bg-color').checked;
+            let saveButtonBgColor = document.getElementById('save-button-bg-color').checked;
+
+            let savedTextColor = getCookie("textColor");
+            let savedBgColor = getCookie("bgColor");
+            let savedButtonBgColor = getCookie("buttonBgColor");
+
+            if (saveTextColor) {
+                document.cookie = "textColor=" + textColor;
+            } else {
+                if (savedTextColor) {
+                    textColor = savedTextColor;
+                }
+            }
+            if (saveBgColor) {
+                document.cookie = "bgColor=" + bgColor;
+            } else {
+                if (savedBgColor) {
+                    bgColor = savedBgColor;
+                }
+            }
+            if (saveButtonBgColor) {
+                document.cookie = "buttonBgColor=" + buttonBgColor;
+            } else {
+                if (savedButtonBgColor) {
+                    buttonBgColor = savedButtonBgColor;
+                }
+            }
+
+            closeSettings();
+            changeTextColor(textColor);
+            changeBackgroundColor(bgColor);
+            changeButtonBackgroundColor(buttonBgColor);
+        }
+
+        function getCookie(name) {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.startsWith(name + "=")) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        function loadColors() {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.startsWith("textColor=")) {
+                    let textColor = cookie.substring("textColor=".length);
+                    changeTextColor(textColor);
+                } else if (cookie.startsWith("bgColor=")) {
+                    let bgColor = cookie.substring("bgColor=".length);
+                    changeBackgroundColor(bgColor);
+                } else if (cookie.startsWith("buttonBgColor=")) {
+                    let buttonBgColor = cookie.substring("buttonBgColor=".length);
+                    changeButtonBackgroundColor(buttonBgColor);
+                }
+            }
+        }
+
+        window.onload = function () {
+            loadColors();
+        }
+
+        function restoreDefaults() {
+            document.cookie = "textColor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "bgColor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "buttonBgColor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+            location.reload();
+        }
+
+        populateSavedGifsDropdown();
+
+
+        function saveGifLink() {
+            let gifLink = document.getElementsByName("gifLink")[0].value;
+            let gifName = document.getElementsByName("gifName")[0].value;
+
+            let savedGifs = getSavedGifs();
+            savedGifs.push({"name": gifName, "link": gifLink});
+
+            updateSavedGifs(savedGifs);
+
+            console.log("Saved GIFs:", savedGifs);
+            location.reload();
+        }
+
+        function getSavedGifs() {
+            let savedGifs = [];
+            try {
+                savedGifs = JSON.parse(localStorage.getItem("savedGifs")) || [];
+            } catch (error) {
+                console.error("Error parsing saved GIFs JSON:", error);
+            }
+            return savedGifs;
+        }
+
+        function updateSavedGifs(savedGifs) {
+            localStorage.setItem("savedGifs", JSON.stringify(savedGifs));
+        }
+
+        function populateSavedGifsDropdown() {
+            let savedGifsDropdown = document.getElementById("savedGifsDropdown");
+
+            let savedGifs = getSavedGifs();
+            savedGifs.forEach(function (gif) {
+                if (gif) {
+                    let option = document.createElement("option");
+                    option.value = gif.link;
+                    option.textContent = gif.name;
+                    savedGifsDropdown.appendChild(option);
+                }
+            });
+        }
+
+        function displaySelectedGif() {
+            let selectedGif = document.getElementById("savedGifsDropdown").value;
+            if (selectedGif) {
+                let displayArea = document.getElementById("gif-image");
+                displayArea.innerHTML = `<img src="${selectedGif}" alt="Selected GIF">`;
+            }
+        }
+
+        function updateSelectedGif() {
+            let selectedGifLink = document.getElementById("savedGifsDropdown").value;
+            if (selectedGifLink) {
+                document.cookie = "gifLink=" + selectedGifLink;
+                displaySelectedGif();
+            } else {
+                console.error("No GIF selected.");
+            }
+            location.reload();
+            console.log("amongus");
+        }
+
+        function deleteSelectedGif() {
+            let dropdown = document.getElementById("savedGifsDropdown");
+            let selectedGifIndex = dropdown.selectedIndex;
+
+            if (selectedGifIndex !== -1) {
+                dropdown.remove(selectedGifIndex);
+
+                let savedGifs = getSavedGifs();
+                savedGifs.splice(selectedGifIndex, 1);
+
+                updateSavedGifs(savedGifs);
+
+                console.log("Selected GIF deleted successfully!");
+            } else {
+                console.log("No GIF selected to delete!");
+            }
+        }
+
+        window.onload = function () {
+            populateSavedGifsDropdown();
+        };
+    </script>
+
+</div>
+
